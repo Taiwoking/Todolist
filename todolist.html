@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+    article{
+        height: 50px;
+        width: 300px;
+        background-color:green;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    Delete{
+        height: 50px;
+        width: 300px;
+        background-color: rgb(231, 236, 236);
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    </style>
+   
+
+</head>
+<body>
+    <body>
+        <input id="to-create">
+        <button id="add-btn">Add</button>
+     
+        <div id="todos-container"> <article id="todo-box">
+                                            <p>Javascprit Test</p>
+                                            <button onclick="initiateEdit(0)">Edit</button>
+                                            <button onclick="initiateEdit(0)">Completed</button>
+                                            <i onclick="deleteItem(0)">X</i>
+                                        </article></div>
+     
+        <script>
+            const toCreateInput = document.getElementById("to-create");
+            const addBtn = document.getElementById("add-btn");
+            const todoContainer = document.getElementById("todos-container")
+            let todoItem = ""
+            let todoList = ["Javascprit Test"];
+            let isEditing = false;
+            let presentIndex;
+            
+            toCreateInput.addEventListener("input",function(event){
+                todoItem = event.currentTarget.value;
+            });
+     
+            addBtn.addEventListener("click", addingOrEditing)
+     
+            function addingOrEditing(){
+     
+                if(isEditing === false){
+                    addToList()
+                }else{
+                    editTheList()
+                }
+            }
+     
+            function addToList(){
+                todoList.push(todoItem)
+                console.log(todoList)
+     
+                paintTheScreen()
+                toCreateInput.value=""
+            }
+     
+     
+            function deleteItem(i){
+                console.log("mama", i);
+                todoList.splice(i,1);
+                paintTheScreen()
+            }
+     
+            function paintTheScreen(){
+                todoContainer.innerHTML="";
+     
+                for(let i= 0; i< todoList.length; i++){
+                    const template = ` <article id="todo-box">
+                                            <p>${todoList[i]}</p>
+                                            <button onclick="initiateEdit(${i})">Edit</button>
+                                            <button onclick="initiateEdit(${i})">Completed</button>
+                                            <i onclick="deleteItem(${i})" >X</i>
+                                        </article>`
+                                       
+                                      
+                    todoContainer.innerHTML+= template;
+                    
+                }
+            }
+    
+            // function paintTheScreen(){
+            //     todoContainer.innerHTML="Delete";
+     
+            //     for(let i= 0; i< todoList.length; i++){
+            //         const template =  <Delete id="todo-box">
+            //                                 <button onclick="initiateEdit(${i})">Delete All</button>
+    
+            //                             </Delete>
+                
+            //         todoContainer.innerHTML+= template;
+                    
+            //     }
+            // }
+           
+     
+            paintTheScreen()
+     
+            function initiateEdit(i){
+                addBtn.innerText="Edit";
+                isEditing= true;
+                toCreateInput.value = todoList[i] ;
+                presentIndex=i;
+            }
+     
+            function editTheList(){
+                todoList[presentIndex] = toCreateInput.value;
+                paintTheScreen()
+            }
+            
+        </script>
+    
+    </body>
+</body>
+</html>
